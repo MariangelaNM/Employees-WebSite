@@ -26,7 +26,25 @@ namespace Employees_Front.Controllers
             return View(lista);
         }
 
-        //VA A CONTROLAR LAS FUNCIONES DE GUARDAR O EDITAR
+        public async Task<IActionResult> DepartmentFormAsync(int departmentID)
+        {
+            Department department;
+
+            if (departmentID == 0)
+            {
+                // Nuevo departamento
+                department = new Department();
+                ViewBag.Accion = "New Department";
+            }
+            else
+            {
+                // Editar departamento existente (recuperar datos de la base de datos o de donde sea necesario)
+                department = await _servicioApi.GetDepartmentById(departmentID);
+                ViewBag.Accion = "Edit Department";
+            }
+
+            return View(department);
+        }
 
 
         public IActionResult Privacy()

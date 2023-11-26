@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\GitHub\\Employees-API\\Employees-Front\\Employees-Front\\Employees-Front.csproj": {}
+    "D:\\GitHub\\Employees-WebSite\\Employees-Front\\Employees-Front\\Employees-Front.csproj": {}
   },
   "projects": {
-    "D:\\GitHub\\Employees-API\\Employees-Front\\Employees-Front\\Employees-Front.csproj": {
+    "D:\\GitHub\\Employees-WebSite\\Employees-Front\\Employees-Front\\Employees-Front.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\GitHub\\Employees-API\\Employees-Front\\Employees-Front\\Employees-Front.csproj",
+        "projectUniqueName": "D:\\GitHub\\Employees-WebSite\\Employees-Front\\Employees-Front\\Employees-Front.csproj",
         "projectName": "Employees-Front",
-        "projectPath": "D:\\GitHub\\Employees-API\\Employees-Front\\Employees-Front\\Employees-Front.csproj",
+        "projectPath": "D:\\GitHub\\Employees-WebSite\\Employees-Front\\Employees-Front\\Employees-Front.csproj",
         "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
-        "outputPath": "D:\\GitHub\\Employees-API\\Employees-Front\\Employees-Front\\obj\\",
+        "outputPath": "D:\\GitHub\\Employees-WebSite\\Employees-Front\\Employees-Front\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

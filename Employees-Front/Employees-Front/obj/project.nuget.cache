@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YPMUo+KN7F/qVM/tGnV/3rI0M00Mg9Sl0NPo3WABmYcwwY+EPOlm/V3Csf5jxnQy9JrDFfhfSU0Ju1VPbaUCnw==",
+  "dgSpecHash": "iaFpk7BdP5/ob7Z2XxHyziWlZvXGyl7LSNL/KveiQW6xoIZHPcfsc2/PZj5zdvs0sd7wkO1X9EZ3pXD7KPE2wg==",
   "success": true,
-  "projectFilePath": "D:\\GitHub\\Employees-API\\Employees-Front\\Employees-Front\\Employees-Front.csproj",
+  "projectFilePath": "D:\\GitHub\\Employees-WebSite\\Employees-Front\\Employees-Front\\Employees-Front.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\maria\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],
