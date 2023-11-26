@@ -25,6 +25,11 @@ namespace Employees_Front.Controllers
             List<Department> lista = await _servicioApi.GetDepartment();
             return View(lista);
         }
+        public async Task<IActionResult> Employees()
+        {
+            List<Department> lista = await _servicioApi.GetDepartment();
+            return View(lista);
+        }
 
         public async Task<IActionResult> DepartmentFormAsync(int departmentID)
         {

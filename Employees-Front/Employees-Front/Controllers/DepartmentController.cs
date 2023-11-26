@@ -1,92 +1,78 @@
 ﻿using Employees_Front.Models;
 using Employees_Front.Services;
-
 using Microsoft.AspNetCore.Mvc;
-
+using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.Threading.Tasks;
 
 namespace Employees_Front.Controllers
 {
-	public class DepartmentController : Controller
-	{
-		private IService_API _servicioApi;
+    public class DepartmentController : Controller
+    {
+        private readonly IService_API _apiService;
 
-		public DepartmentController(IService_API servicioApi)
-		{
-			_servicioApi = servicioApi;
-		}
+        public DepartmentController(IService_API apiService)
+        {
+            _apiService = apiService;
+        }
 
         public async Task<IActionResult> Index()
         {
-            List<Department> lista = await _servicioApi.GetDepartment();
-            return View(lista);
-        }
-        public async Task<IActionResult> DepartmentHome()
-        {
-            List<Department> lista = await _servicioApi.GetDepartment();
-            return View(lista);
+            List<Department> list = await _apiService.GetDepartment();
+            return View(list);
         }
 
-        //VA A CONTROLAR LAS FUNCIONES DE GUARDAR O EDITAR
 
+        // CONTROLS THE FUNCTIONS TO SAVE OR EDIT
         public IActionResult Department(int departmentID)
         {
             Department department;
 
             if (departmentID == 0)
             {
-                // Nuevo departamento
+                // New department
                 department = new Department();
-                ViewBag.Accion = "New Department";
+                ViewBag.Action = "New Department";
             }
             else
             {
-                // Editar departamento existente (recuperar datos de la base de datos o de donde sea necesario)
+                // Edit existing department (retrieve data from the database or wherever necessary)
                 department = new Department();
-                ViewBag.Accion = "Edit Department";
+                ViewBag.Action = "Edit Department";
             }
 
             return View(department);
         }
 
-
-
         [HttpPost]
-		public async Task<IActionResult> Post(Department ob_producto)
-		{
+        public async Task<IActionResult> Post(Department department)
+        {
+            bool response;
 
-			bool respuesta;
-
-			if (ob_producto.DepartmentID == 0)
-			{
-				respuesta = await _servicioApi.Post(ob_producto);
-			}
-			else
-			{
-				respuesta = await _servicioApi.Edit(ob_producto);
-			}
-
-
-			if (respuesta)
-                return RedirectToAction("DepartmentHome");
+            if (department.DepartmentID == 0)
+            {
+                response = await _apiService.Post(department);
+            }
             else
-				return NoContent();
+            {
+                response = await _apiService.Edit(department);
+            }
 
-		}
+            if (response)
+                return RedirectToAction("Department", "Home");
+            else
+                return NoContent();
+        }
 
-		[HttpGet]
-		public async Task<IActionResult> Delete(int DepartmentID)
-		{
+        [HttpGet]
+        public async Task<IActionResult> Delete(int departmentID)
+        {
+            var response = await _apiService.Delete(departmentID);
 
-			var respuesta = await _servicioApi.Delete(DepartmentID);
-
-			if (respuesta)
-				return RedirectToAction("Department");
-			else
-				return NoContent();
-		}
-
-
-	}
+            if (response)
+                return RedirectToAction("Department", "Home");
+            else
+                return NoContent();
+        }
+    }
 }
