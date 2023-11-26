@@ -2,7 +2,7 @@
 
 namespace Employees_Front.Services
 {
-    public interface IService_API
+    public interface IService_API_Department
     {
          Task<List<Department>>  GetDepartment();
 

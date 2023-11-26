@@ -2,35 +2,45 @@ using Employees_Front.Models;
 using Employees_Front.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Threading.Tasks; // Make sure to include this namespace for Task
 
 namespace Employees_Front.Controllers
-
-    {
+{
     public class HomeController : Controller
     {
-        private IService_API _servicioApi;
+        private readonly IService_API_Department _departmentService;
+        private readonly IService_API_Employee _employeeService;
 
-        public HomeController(IService_API servicioApi)
+        public HomeController(IService_API_Department departmentService, IService_API_Employee employeeService)
         {
-            _servicioApi = servicioApi;
+            _departmentService = departmentService;
+            _employeeService = employeeService;
         }
 
         public async Task<IActionResult> Index()
         {
-            List<Department> lista = await _servicioApi.GetDepartment();
-            return View(lista);
-        }
-        public async Task<IActionResult> Department()
-        {
-            List<Department> lista = await _servicioApi.GetDepartment();
-            return View(lista);
-        }
-        public async Task<IActionResult> Employees()
-        {
-            List<Department> lista = await _servicioApi.GetDepartment();
-            return View(lista);
+            List<Department> departmentList = await _departmentService.GetDepartment();
+
+
+            // Your logic for combining or using both lists
+
+            return View(departmentList);
         }
 
+        public async Task<IActionResult> Department()
+        {
+            List<Department> departmentList = await _departmentService.GetDepartment();
+            // Use _employeeService here as needed
+
+            return View(departmentList);
+        }
+        public async Task<IActionResult> Employee()
+        {
+            List<Employee> departmentList = await _employeeService.GetEmployee();
+            // Use _employeeService here as needed
+
+            return View(departmentList);
+        }
         public async Task<IActionResult> DepartmentFormAsync(int departmentID)
         {
             Department department;
@@ -44,13 +54,14 @@ namespace Employees_Front.Controllers
             else
             {
                 // Editar departamento existente (recuperar datos de la base de datos o de donde sea necesario)
-                department = await _servicioApi.GetDepartmentById(departmentID);
+                department = await _departmentService.GetDepartmentById(departmentID);
                 ViewBag.Accion = "Edit Department";
             }
 
+            // Use _employeeService here as needed
+
             return View(department);
         }
-
 
         public IActionResult Privacy()
         {
@@ -63,5 +74,4 @@ namespace Employees_Front.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
-        }
-    
+}

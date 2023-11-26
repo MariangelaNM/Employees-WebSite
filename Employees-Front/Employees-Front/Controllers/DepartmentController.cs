@@ -9,9 +9,9 @@ namespace Employees_Front.Controllers
 {
     public class DepartmentController : Controller
     {
-        private readonly IService_API _apiService;
+        private readonly IService_API_Department _apiService;
 
-        public DepartmentController(IService_API apiService)
+        public DepartmentController(IService_API_Department apiService)
         {
             _apiService = apiService;
         }

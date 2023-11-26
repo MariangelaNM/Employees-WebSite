@@ -5,20 +5,20 @@ using System.Text;
 
 namespace Employees_Front.Services
 {
-    public class Service_API : IService_API
+    public class Service_API_Employee : IService_API_Employee
     {
         private static string _baseUrl;
 
-        public Service_API()
+        public Service_API_Employee()
         {
             // Read the base URL from the appsettings.json file during object creation.
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
             _baseUrl = builder.GetSection("ApiSetting:baseUrl").Value;
         }
 
-        public async Task<List<Department>> GetDepartment()
+        public async Task<List<Employee>> GetEmployee()
         {
-            List<Department> list = new List<Department>();
+            List<Employee> list = new List<Employee>();
 
             // Using statement ensures that the HttpClient is disposed of properly.
             using (var client = new HttpClient())
@@ -28,16 +28,16 @@ namespace Employees_Front.Services
                     // Set the base address for the HttpClient.
                     client.BaseAddress = new Uri(_baseUrl);
 
-                    // Make an asynchronous GET request to the "api/Department" endpoint.
-                    var response = await client.GetAsync("api/Department");
+                    // Make an asynchronous GET request to the "api/Employee" endpoint.
+                    var response = await client.GetAsync("api/Employee");
 
                     if (response.IsSuccessStatusCode)
                     {
                         // If the response is successful, read the content as a string.
                         var json_response = await response.Content.ReadAsStringAsync();
 
-                        // Deserialize the JSON response into a List of Department objects.
-                        list = JsonConvert.DeserializeObject<List<Department>>(json_response);
+                        // Deserialize the JSON response into a List of Employee objects.
+                        list = JsonConvert.DeserializeObject<List<Employee>>(json_response);
                     }
                     else
                     {
@@ -52,12 +52,12 @@ namespace Employees_Front.Services
                 }
             }
 
-            // Return the list of departments.
+            // Return the list of Employees.
             return list;
         }
-        public async Task<Department> GetDepartmentById(int departmentID)
+        public async Task<Employee> GetEmployeeById(int id)
         {
-            Department departmentList = new Department();
+            Employee employeeList = new Employee();
 
             // Using statement ensures that the HttpClient is disposed of properly.
             using (var client = new HttpClient())
@@ -67,16 +67,16 @@ namespace Employees_Front.Services
                     // Set the base address for the HttpClient.
                     client.BaseAddress = new Uri(_baseUrl);
 
-                    // Make an asynchronous GET request to the "api/Department" endpoint.
-                    var response = await client.GetAsync("api/Department/" + departmentID);
+                    // Make an asynchronous GET request to the "api/Employee" endpoint.
+                    var response = await client.GetAsync("api/Employee/" + id);
 
                     if (response.IsSuccessStatusCode)
                     {
                         // If the response is successful, read the content as a string.
                         var json_response = await response.Content.ReadAsStringAsync();
 
-                        // Deserialize the JSON response into a List of Department objects.
-                        departmentList = JsonConvert.DeserializeObject<Department>(json_response);
+                        // Deserialize the JSON response into a List of Employee objects.
+                        employeeList = JsonConvert.DeserializeObject<Employee>(json_response);
                     }
                     else
                     {
@@ -91,10 +91,10 @@ namespace Employees_Front.Services
                 }
             }
 
-            // Return the list of departments.
-            return departmentList;
+            // Return the list of employees.
+            return employeeList;
         }
-        public async Task<bool> Post(Department department)
+        public async Task<bool> Post(Employee employee)
         {
             using (var client = new HttpClient())
             {
@@ -103,14 +103,14 @@ namespace Employees_Front.Services
                     // Set the base address for the HttpClient.
                     client.BaseAddress = new Uri(_baseUrl);
 
-                    // Convert the Department object to JSON.
-                    var json_data = JsonConvert.SerializeObject(department);
+                    // Convert the employee object to JSON.
+                    var json_data = JsonConvert.SerializeObject(employee);
 
                     // Set the content type header to indicate that the content is JSON.
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                    // Make an asynchronous POST request to the "api/Department" endpoint.
-                    var response = await client.PostAsync("api/Department", new StringContent(json_data, Encoding.UTF8, "application/json"));
+                    // Make an asynchronous POST request to the "api/Employee" endpoint.
+                    var response = await client.PostAsync("api/Employee", new StringContent(json_data, Encoding.UTF8, "application/json"));
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -158,8 +158,8 @@ namespace Employees_Front.Services
                     // Set the base address for the HttpClient.
                     client.BaseAddress = new Uri(_baseUrl);
 
-                    // Make an asynchronous DELETE request to the "api/Department/{id}" endpoint.
-                    var response = await client.DeleteAsync($"api/Department/{id}");
+                    // Make an asynchronous DELETE request to the "api/Employee/{id}" endpoint.
+                    var response = await client.DeleteAsync($"api/Employee/{id}");
 
                     return response.IsSuccessStatusCode;
                 }
@@ -174,7 +174,7 @@ namespace Employees_Front.Services
 
 
 
-        public async Task<bool> Edit(Department department)
+        public async Task<bool> Edit(Employee employee)
         {
             using (var client = new HttpClient())
             {
@@ -183,14 +183,14 @@ namespace Employees_Front.Services
                     // Set the base address for the HttpClient.
                     client.BaseAddress = new Uri(_baseUrl);
 
-                    // Convert the Department object to JSON.
-                    var json_data = JsonConvert.SerializeObject(department);
+                    // Convert the employee object to JSON.
+                    var json_data = JsonConvert.SerializeObject(employee);
 
                     // Set the content type header to indicate that the content is JSON.
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                    // Make an asynchronous POST request to the "api/Department" endpoint.
-                    var response = await client.PutAsync("api/Department/" + department.DepartmentID, new StringContent(json_data, Encoding.UTF8, "application/json"));
+                    // Make an asynchronous POST request to the "api/Employee" endpoint.
+                    var response = await client.PutAsync("api/Employee/" + employee.EmployeeID, new StringContent(json_data, Encoding.UTF8, "application/json"));
 
                     if (response.IsSuccessStatusCode)
                     {

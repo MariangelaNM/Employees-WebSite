@@ -1,11 +1,12 @@
 using Employees_Front.Services;
-
+using Employees_Front.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IService_API, Service_API>();
+builder.Services.AddScoped<IService_API_Department, Service_API_Department>();
 
+builder.Services.AddScoped<IService_API_Employee, Service_API_Employee>();
 
 
 var app = builder.Build();
