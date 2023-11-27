@@ -45,7 +45,7 @@ namespace Employees_Front.Controllers
         public async Task<IActionResult> EmployeeFormAsync(int EmployeeID)
         {
             Employee employee;
-
+           
             if (EmployeeID == 0)
             {
                 // Nuevo departamento
@@ -59,7 +59,10 @@ namespace Employees_Front.Controllers
                 ViewBag.Accion = "Edit Department";
             }
 
-            // Use _employeeService here as needed
+            var departments = await _departmentService.GetDepartment(); // Debes implementar este método según tu lógica
+
+            // Asigna la lista de departamentos a ViewBag.Department
+            ViewBag.Data = departments;
 
             return View(employee);
         }

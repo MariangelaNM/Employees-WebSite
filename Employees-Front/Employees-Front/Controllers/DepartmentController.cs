@@ -19,6 +19,8 @@ namespace Employees_Front.Controllers
         public async Task<IActionResult> Index()
         {
             List<Department> list = await _apiService.GetDepartment();
+            ViewBag.Departments = list;
+
             return View(list);
         }
 

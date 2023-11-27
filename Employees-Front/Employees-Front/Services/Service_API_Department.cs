@@ -122,13 +122,8 @@ namespace Employees_Front.Services
                         var errorResponse = await response.Content.ReadAsStringAsync();
                         var errorDetails = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(errorResponse);
 
-                        foreach (var keyValuePair in errorDetails)
-                        {
-                            foreach (var errorMessage in keyValuePair.Value)
-                            {
-                                Console.WriteLine($"Error in {keyValuePair.Key}: {errorMessage}");
-                            }
-                        }
+                    
+                        
 
                         return false;
                     }
