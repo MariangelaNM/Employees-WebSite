@@ -10,5 +10,9 @@ namespace Employees_Front.Models
         {
             throw new NotImplementedException();
         }
+        public Department()
+        {
+            DepartmentName = ""; // Establecer el valor predeterminado aquí
+        }
     }
 }

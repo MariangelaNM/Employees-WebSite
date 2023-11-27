@@ -32,10 +32,8 @@
                 @Html.DropDownListFor(model => model.Department.DepartmentID, new SelectList(ViewBag.Data, "DepartmentID", "DepartmentName"), "Select...", new { @class = "form-control form-control-sm" })
             </div>
 
-
             <button type="submit" class="btn btn-success btn-sm">Save</button>
             <a asp-action="Employee" asp-controller="Home" class="btn btn-warning btn-sm">Cancel</a>
-
         </form>
     </div>
 </div>
