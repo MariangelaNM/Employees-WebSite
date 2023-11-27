@@ -41,6 +41,30 @@ namespace Employees_Front.Controllers
 
             return View(departmentList);
         }
+
+        public async Task<IActionResult> EmployeeFormAsync(int EmployeeID)
+        {
+            Employee employee;
+
+            if (EmployeeID == 0)
+            {
+                // Nuevo departamento
+                employee = new Employee();
+                ViewBag.Accion = "New Department";
+            }
+            else
+            {
+                // Editar departamento existente (recuperar datos de la base de datos o de donde sea necesario)
+                employee = await _employeeService.GetEmployeeById(EmployeeID);
+                ViewBag.Accion = "Edit Department";
+            }
+
+            // Use _employeeService here as needed
+
+            return View(employee);
+        }
+
+
         public async Task<IActionResult> DepartmentFormAsync(int departmentID)
         {
             Department department;

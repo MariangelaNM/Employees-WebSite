@@ -1,0 +1,34 @@
+﻿@model Employees_Front.Models.Employee
+@{
+    ViewData["Title"] = "Department";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        @ViewBag.Accion
+    </div>
+    <div class="card-body">
+        <form asp-action="Post" asp-controller="Employee" method="post">
+            <input type="hidden" asp-for="EmployeeID" />
+
+            <div class="mb-2">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control form-control-sm" asp-for="EmployeeName" />
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-control form-control-sm" asp-for="EmployeeLastName" />
+            </div>
+            <div class="mb-2">
+                <label class="form-label">DNI</label>
+                <input type="number" class="form-control form-control-sm" asp-for="EmployeeDNI" />
+            </div>
+
+            <button type="submit" class="btn btn-success btn-sm">Save</button>
+            <a asp-action="Employee" asp-controller="Home" class="btn btn-warning btn-sm">Cancel</a>
+        </form>
+
+
+    </div>
+</div>

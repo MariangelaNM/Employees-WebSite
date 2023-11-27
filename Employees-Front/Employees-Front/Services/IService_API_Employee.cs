@@ -10,7 +10,7 @@ namespace Employees_Front.Services
 
         Task<bool> Edit(Employee objeto);
 
-        Task<bool> Delete(int id);
+        Task<bool> Delete(int EmployeeID);
         Task<Employee> GetEmployeeById(int id);
     }
 }

@@ -149,7 +149,7 @@ namespace Employees_Front.Services
         }
 
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int EmployeeID)
         {
             using (var client = new HttpClient())
             {
@@ -159,7 +159,7 @@ namespace Employees_Front.Services
                     client.BaseAddress = new Uri(_baseUrl);
 
                     // Make an asynchronous DELETE request to the "api/Employee/{id}" endpoint.
-                    var response = await client.DeleteAsync($"api/Employee/{id}");
+                    var response = await client.DeleteAsync($"api/Employee/{EmployeeID}");
 
                     return response.IsSuccessStatusCode;
                 }

@@ -7,5 +7,6 @@
         public  string EmployeeName { get; set; }
         public  string EmployeeLastName { get; set; }
         public int DepartmentID { get; set; }
+
     }
 }
