@@ -77,7 +77,9 @@ namespace Employees_Front.Controllers
 			if (response)
 				return RedirectToAction("Department", "Home");
 			else
-				return NoContent();
+				TempData["ErrorMessage"] ="This department contain employees"; // Pass the error message to the view
+
+			return NoContent();
 		}
 	}
 }

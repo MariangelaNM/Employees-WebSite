@@ -5,37 +5,62 @@
 
 <div class="text-center">
     <h1 class="display-4">Departments</h1>
-    <!-- <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p> -->
 </div>
+
 @if (TempData["AlertMessage"] != null)
 {
+    <!-- Success message alert -->
     <div id="alertContainer" class="alert alert-success">
         <strong>Success! </strong>@TempData["AlertMessage"]
     </div>
 
     <script>
-        // Show the alert immediately when TempData["AlertMessage"] has data
         document.addEventListener("DOMContentLoaded", function () {
             var alertContainer = document.getElementById('alertContainer');
             if (alertContainer) {
                 alertContainer.style.display = 'block';
             }
 
-            // Add a timer to hide the alert after 3 seconds
+            // Hide the success alert after 3 seconds
             setTimeout(function () {
                 if (alertContainer) {
                     alertContainer.style.display = 'none';
                     TempData["AlertMessage"] = null;
                 }
-            }, 1000);
+            }, 3000);
         });
     </script>
 }
-<div class="card">
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <!-- Error message alert -->
+    <div id="alertContainer" class="alert alert-danger">
+        <strong>Error! </strong>@TempData["ErrorMessage"]
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var alertContainer = document.getElementById('alertContainer');
+            if (alertContainer) {
+                alertContainer.style.display = 'block';
+            }
+
+            // Hide the error alert after 5 seconds
+            setTimeout(function () {
+                if (alertContainer) {
+                    alertContainer.style.display = 'none';
+                    TempData["AlertMessage"] = null;
+                }
+            }, 5000);
+        });
+    </script>
+}
+
+<div class="card">
     <div class="card-body">
+        <!-- Link to create a new department -->
         <a asp-action="DepartmentForm" asp-controller="Home" asp-route-departmentID="0" class="btn btn-success btn-sm">New Department</a>
-        <!-- <a asp-action="test" asp-controller="Home" class="btn btn-success">test</a> -->
         <hr />
         <table class="table">
             <thead>
@@ -48,12 +73,14 @@
             <tbody>
                 @foreach (var item in Model)
                 {
+                    <!-- Display department information in a table -->
                     <tr>
                         <td>@item.DepartmentID</td>
                         <td>@item.DepartmentName</td>
                         <td>
+                            <!-- Links to update and delete a department -->
                             <a asp-action="DepartmentForm" asp-controller="Home" asp-route-departmentID="@item.DepartmentID" class="btn btn-primary btn-sm">Update</a>
-                            <a asp-action="Delete" asp-controller="Department" asp-route-departmentID="@item.DepartmentID" class="btn btn-danger btn-sm">Delete</a>
+                            <a asp-action="Delete" asp-controller="Department" asp-route-departmentID="@item.DepartmentID" class="btn btn-danger btn-sm" onclick="confirmDelete()">Delete</a>
                         </td>
                     </tr>
                 }
@@ -61,8 +88,19 @@
         </table>
     </div>
 </div>
-<script>
 
+<script>
+    // Clear localStorage
     localStorage.clear();
 
+    // Function to confirm department deletion
+    function confirmDelete() {
+        // You can add a confirmation message if desired
+        if (confirm('Are you sure you want to delete this department?')) {
+            // Reload the page after a short delay
+            setTimeout(function () {
+                location.reload();
+            }, 500);
+        }
+    }
 </script>

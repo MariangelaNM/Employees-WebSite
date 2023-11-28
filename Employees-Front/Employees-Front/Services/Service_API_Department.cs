@@ -146,7 +146,6 @@ namespace Employees_Front.Services
 			}
 		}
 
-
 		public async Task<bool> Delete(int id)
 		{
 			using (var client = new HttpClient())
@@ -169,7 +168,6 @@ namespace Employees_Front.Services
 				}
 			}
 		}
-
 
 
 		public async Task<(bool Success, string Message)> Edit(Department department)
