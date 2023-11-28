@@ -23,16 +23,18 @@
             setTimeout(function () {
                 if (alertContainer) {
                     alertContainer.style.display = 'none';
+                    localStorage.clear();
                     TempData["AlertMessage"] = null;
                 }
             }, 1000);
         });
 
-        localStorage.clear();
+   
 
         function confirmDelete(message) {
             if (confirm(message)) {
                 setTimeout(function () {
+                    localStorage.clear();
                     location.reload();
                 }, 500);
             }
