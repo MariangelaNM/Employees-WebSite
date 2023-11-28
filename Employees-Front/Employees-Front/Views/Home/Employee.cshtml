@@ -1,79 +1,80 @@
 ﻿@model List<Employee>
 @{
-	ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-	<h1 class="display-4">Employees</h1>
+    <h1 class="display-4">List of Employees</h1>
 </div>
+
 @if (TempData["AlertMessage"] != null)
 {
-	<div id="alertContainer" class="alert alert-success">
-		<strong>Success! </strong>@TempData["AlertMessage"]
-	</div>
+    <div id="alertContainer" class="alert alert-success">
+        <strong>Success! </strong>@TempData["AlertMessage"]
+    </div>
 
-	<script>
-		// Show the alert immediately when TempData["AlertMessage"] has data
-		document.addEventListener("DOMContentLoaded", function () {
-			var alertContainer = document.getElementById('alertContainer');
-			if (alertContainer) {
-				alertContainer.style.display = 'block';
-			}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var alertContainer = document.getElementById('alertContainer');
+            if (alertContainer) {
+                alertContainer.style.display = 'block';
+            }
 
-			// Add a timer to hide the alert after 3 seconds
-			setTimeout(function () {
-				if (alertContainer) {
-					alertContainer.style.display = 'none';
-					TempData["AlertMessage"] = null;
-				}
-			}, 1000);
-		});
-	</script>
+            setTimeout(function () {
+                if (alertContainer) {
+                    alertContainer.style.display = 'none';
+                    TempData["AlertMessage"] = null;
+                }
+            }, 1000);
+        });
+
+        localStorage.clear();
+
+        function confirmDelete(message) {
+            if (confirm(message)) {
+                setTimeout(function () {
+                    location.reload();
+                }, 500);
+            }
+        }
+    </script>
 }
 
 <div class="card">
-	<div class="card-body">
-		<a asp-action="EmployeeForm" asp-controller="Home" asp-route-EmployeeID="0" class="btn btn-success btn-sm">New Employee</a>
-		<hr />
-		<table class="table">
-			<thead>
-				<tr>
-					<th>DNI</th>
-					<th>Name</th>
-					<th>Last Name</th>
-					<th>Department</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach (var item in Model)
-				{
-					<tr>
-						<td>@item.EmployeeDNI</td>
-						<td>@item.EmployeeName</td>
-						<td>@item.EmployeeLastName</td>
-						<td>@item.Department.DepartmentName</td>
-						<td>
-							<a asp-action="EmployeeForm" asp-controller="Home" asp-route-EmployeeID="@item.EmployeeID" class="btn btn-primary btn-sm">Update</a>
-							<a asp-action="Delete" asp-controller="Employee" asp-route-EmployeeID="@item.EmployeeID" onclick="confirmDelete()"  class="btn btn-danger btn-sm">Delete</a>
-						</td>
-					</tr>
-				}
-			</tbody>
-		</table>
-	</div>
+    <div class="card-body">
+        <div class="d-flex justify-content-end mb-3">
+            <a href="@Url.Action("EmployeeForm", "Home", new { EmployeeID = 0 })" class="btn btn-success btn-sm">New Employee</a>
+        </div>
+        <hr />
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="text-nowrap">DNI</th>
+                        <th class="text-nowrap">Name</th>
+                        <th class="text-nowrap">Last Name</th>
+                        <th class="text-nowrap">Department</th>
+                        <th class="text-nowrap">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.EmployeeDNI</td>
+                            <td>@item.EmployeeName</td>
+                            <td>@item.EmployeeLastName</td>
+                            <td>@item.Department.DepartmentName</td>
+                            <td>
+                                <a href="@Url.Action("EmployeeForm", "Home", new { EmployeeID = item.EmployeeID })" class="btn btn-primary btn-sm">Update</a>
+                                <a href="@Url.Action("Delete", "Employee", new { EmployeeID = item.EmployeeID })" onclick="confirmDelete('Are you sure you want to delete this Employee?')" class="btn btn-danger btn-sm ml-2">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<script>
 
-	localStorage.clear();
-	function confirmDelete() {
-		// You can add a confirmation message if desired
-		if (confirm('Are you sure you want to delete this Employee?')) {
-			// Reload the page after a short delay
-			setTimeout(function () {
-				location.reload();
-			}, 500);
-		}
-	}
 
-</script>

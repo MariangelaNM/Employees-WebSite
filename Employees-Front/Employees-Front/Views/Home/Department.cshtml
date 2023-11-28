@@ -1,73 +1,49 @@
-﻿@model List<Department>
-@{
-    ViewData["Title"] = "Departments";
+﻿@{
+    var alertMessage = TempData["AlertMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Departments</h1>
-</div>
-
-@if (TempData["AlertMessage"] != null)
+@if (!string.IsNullOrEmpty(alertMessage))
 {
     <!-- Success message alert -->
     <div id="alertContainer" class="alert alert-success">
-        <strong>Success! </strong>@TempData["AlertMessage"]
+        <strong>Success! </strong>@alertMessage
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            var alertContainer = document.getElementById('alertContainer');
-            if (alertContainer) {
-                alertContainer.style.display = 'block';
-            }
-
-            // Hide the success alert after 3 seconds
-            setTimeout(function () {
-                if (alertContainer) {
-                    alertContainer.style.display = 'none';
-                    TempData["AlertMessage"] = null;
-                }
-            }, 3000);
+            displayAlert('alertContainer', 3000);
         });
     </script>
 }
 
-@if (TempData["ErrorMessage"] != null)
+@if (!string.IsNullOrEmpty(errorMessage))
 {
     <!-- Error message alert -->
     <div id="alertContainer" class="alert alert-danger">
-        <strong>Error! </strong>@TempData["ErrorMessage"]
+        <strong>Error! </strong>@errorMessage
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            var alertContainer = document.getElementById('alertContainer');
-            if (alertContainer) {
-                alertContainer.style.display = 'block';
-            }
-
-            // Hide the error alert after 5 seconds
-            setTimeout(function () {
-                if (alertContainer) {
-                    alertContainer.style.display = 'none';
-                    TempData["AlertMessage"] = null;
-                }
-            }, 5000);
+            displayAlert('alertContainer', 5000);
         });
     </script>
 }
-
 <div class="card">
     <div class="card-body">
         <!-- Link to create a new department -->
-        <a asp-action="DepartmentForm" asp-controller="Home" asp-route-departmentID="0" class="btn btn-success btn-sm">New Department</a>
+    
+        <div class="d-flex justify-content-end mb-3">
+            <a href="@Url.Action("DepartmentForm", "Home", new { EmployeeID = 0 })" class="btn btn-success btn-sm">New Department</a>
+        </div>
         <hr />
         <table class="table">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th></th>
+                    <th class="text-nowrap">Id</th>
+                    <th class="text-nowrap">Name</th>
+                    <th class="text-nowrap">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -77,10 +53,15 @@
                     <tr>
                         <td>@item.DepartmentID</td>
                         <td>@item.DepartmentName</td>
+                        
                         <td>
                             <!-- Links to update and delete a department -->
-                            <a asp-action="DepartmentForm" asp-controller="Home" asp-route-departmentID="@item.DepartmentID" class="btn btn-primary btn-sm">Update</a>
-                            <a asp-action="Delete" asp-controller="Department" asp-route-departmentID="@item.DepartmentID" class="btn btn-danger btn-sm" onclick="confirmDelete()">Delete</a>
+                            <a asp-action="DepartmentForm" asp-controller="Home" asp-route-departmentID="@item.DepartmentID" class="btn btn-primary btn-sm">
+                                Update
+                            </a>
+                            <a asp-action="Delete" asp-controller="Department" asp-route-departmentID="@item.DepartmentID" class="btn btn-danger btn-sm" onclick="confirmDelete()">
+                               Delete
+                            </a>
                         </td>
                     </tr>
                 }
@@ -89,9 +70,22 @@
     </div>
 </div>
 
+
 <script>
-    // Clear localStorage
-    localStorage.clear();
+    function displayAlert(alertId, duration) {
+        var alertContainer = document.getElementById(alertId);
+        if (alertContainer) {
+            alertContainer.style.display = 'block';
+        }
+
+        // Hide the alert after the specified duration
+        setTimeout(function () {
+            if (alertContainer) {
+                alertContainer.style.display = 'none';
+                TempData["AlertMessage"] = null;
+            }
+        }, duration);
+    }
 
     // Function to confirm department deletion
     function confirmDelete() {
