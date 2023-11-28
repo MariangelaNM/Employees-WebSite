@@ -6,9 +6,9 @@ namespace Employees_Front.Services
     {
          Task<List<Employee>>  GetEmployee();
 
-        Task<bool> Post(Employee objeto);
+        Task<(bool Success, string Message)> Post(Employee objeto);
 
-        Task<bool> Edit(Employee objeto);
+        Task<(bool Success, string Message)> Edit(Employee objeto);
 
         Task<bool> Delete(int EmployeeID);
         Task<Employee> GetEmployeeById(int id);

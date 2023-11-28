@@ -6,6 +6,30 @@
 <div class="text-center">
     <h1 class="display-4">Employees</h1>
 </div>
+@if (TempData["AlertMessage"] != null)
+{
+    <div id="alertContainer" class="alert alert-success">
+        <strong>Success! </strong>@TempData["AlertMessage"]
+    </div>
+
+    <script>
+        // Show the alert immediately when TempData["AlertMessage"] has data
+        document.addEventListener("DOMContentLoaded", function () {
+            var alertContainer = document.getElementById('alertContainer');
+            if (alertContainer) {
+                alertContainer.style.display = 'block';
+            }
+
+            // Add a timer to hide the alert after 3 seconds
+            setTimeout(function () {
+                if (alertContainer) {
+                    alertContainer.style.display = 'none';
+                    TempData["AlertMessage"] = null;
+                }
+            }, 1000);
+        });
+    </script>
+}
 
 <div class="card">
     <div class="card-body">
@@ -14,7 +38,6 @@
         <table class="table">
             <thead>
                 <tr>
-                   
                     <th>DNI</th>
                     <th>Name</th>
                     <th>Last Name</th>
@@ -26,7 +49,6 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        
                         <td>@item.EmployeeDNI</td>
                         <td>@item.EmployeeName</td>
                         <td>@item.EmployeeLastName</td>
@@ -41,3 +63,8 @@
         </table>
     </div>
 </div>
+<script>
+
+            localStorage.clear();
+
+</script>

@@ -12,7 +12,7 @@ namespace Employees_Front.Services
         public Service_API_Employee()
         {
             // Read the base URL from the appsettings.json file during object creation.
-            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
+              var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
             _baseUrl = builder.GetSection("ApiSetting:baseUrl").Value;
         }
 
@@ -94,7 +94,7 @@ namespace Employees_Front.Services
             // Return the list of employees.
             return employeeList;
         }
-        public async Task<bool> Post(Employee employee)
+        public async Task<(bool Success, string Message)> Post(Employee employee)
         {
             using (var client = new HttpClient())
             {
@@ -114,7 +114,7 @@ namespace Employees_Front.Services
 
                     if (response.IsSuccessStatusCode)
                     {
-                        return true;
+                        return (true, "Employee added successfully!");
                     }
                     else if (response.StatusCode == HttpStatusCode.BadRequest)
                     {
@@ -122,31 +122,32 @@ namespace Employees_Front.Services
                         var errorResponse = await response.Content.ReadAsStringAsync();
                         var errorDetails = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(errorResponse);
 
+                        // Construir un mensaje de error combinando todas las validaciones.
+                        var errorMessage = new StringBuilder();
                         foreach (var keyValuePair in errorDetails)
                         {
-                            foreach (var errorMessage in keyValuePair.Value)
+                            foreach (var errorMessagePart in keyValuePair.Value)
                             {
-                                Console.WriteLine($"Error in {keyValuePair.Key}: {errorMessage}");
+                                errorMessage.AppendLine($"Error in {keyValuePair.Key}: {errorMessagePart}");
                             }
                         }
 
-                        return false;
+                        return (false, errorMessage.ToString());
                     }
                     else
                     {
                         // Handle other errors
-                        Console.WriteLine($"Error: {response.ReasonPhrase}");
-                        return false;
+                        return (false, $"Error: {response.ReasonPhrase}");
                     }
                 }
                 catch (Exception ex)
                 {
                     // Handle other exceptions.
-                    Console.WriteLine($"Error: {ex.Message}");
-                    return false;
+                    return (false, $"Error: {ex.Message}");
                 }
             }
         }
+
 
 
         public async Task<bool> Delete(int EmployeeID)
@@ -174,7 +175,7 @@ namespace Employees_Front.Services
 
 
 
-        public async Task<bool> Edit(Employee employee)
+        public async Task<(bool Success, string Message)> Edit(Employee employee)
         {
             using (var client = new HttpClient())
             {
@@ -194,36 +195,37 @@ namespace Employees_Front.Services
 
                     if (response.IsSuccessStatusCode)
                     {
-                        return true;
+                        return (true, "Employee saved successfully!");
                     }
                     else if (response.StatusCode == HttpStatusCode.BadRequest)
                     {
-                        // Handle validation errors
                         var errorResponse = await response.Content.ReadAsStringAsync();
                         var errorDetails = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(errorResponse);
 
+                        // Construir un mensaje de error combinando todas las validaciones.
+                        var errorMessage = new StringBuilder();
                         foreach (var keyValuePair in errorDetails)
                         {
-                            foreach (var errorMessage in keyValuePair.Value)
+                            foreach (var errorMessagePart in keyValuePair.Value)
                             {
-                                Console.WriteLine($"Error in {keyValuePair.Key}: {errorMessage}");
+                                errorMessage.AppendLine($"Error in {keyValuePair.Key}: {errorMessagePart}");
                             }
                         }
 
-                        return false;
+                        return (false, errorMessage.ToString());
                     }
                     else
                     {
                         // Handle other errors
                         Console.WriteLine($"Error: {response.ReasonPhrase}");
-                        return false;
+                        return (false, $"Error: {response.ReasonPhrase}");
                     }
                 }
                 catch (Exception ex)
                 {
                     // Handle other exceptions.
                     Console.WriteLine($"Error: {ex.Message}");
-                    return false;
+                     return (false, $"Error: {ex.Message}");
                 }
             }
         }

@@ -9,8 +9,32 @@
     <div class="card-header">
         @ViewBag.Accion
     </div>
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div id="alertContainer" class="alert alert-danger">
+            <strong>Error! </strong>@TempData["ErrorMessage"]
+        </div>
+
+        <script>
+      
+            document.addEventListener("DOMContentLoaded", function () {
+                var alertContainer = document.getElementById('alertContainer');
+                if (alertContainer) {
+                    alertContainer.style.display = 'block';
+                }
+
+                // Add a timer to hide the alert after 3 seconds
+                setTimeout(function () {
+                    if (alertContainer) {
+                        alertContainer.style.display = 'none';
+                        TempData["AlertMessage"] = null;
+                    }
+                }, 5000);
+            });
+        </script>
+    }
     <div class="card-body">
-        <form asp-action="Post" asp-controller="Employee" method="post">
+        <form asp-action="Post" asp-controller="Employee" method="post" onsubmit="beforeSubmit(event)">
             <input type="hidden" asp-for="EmployeeID" />
 
             <div class="mb-2">
@@ -31,9 +55,52 @@
                 <label class="form-label">Select Department</label>
                 @Html.DropDownListFor(model => model.Department.DepartmentID, new SelectList(ViewBag.Data, "DepartmentID", "DepartmentName"), "Select...", new { @class = "form-control form-control-sm" })
             </div>
+           
 
             <button type="submit" class="btn btn-success btn-sm">Save</button>
             <a asp-action="Employee" asp-controller="Home" class="btn btn-warning btn-sm">Cancel</a>
+           
+
         </form>
+
     </div>
 </div>
+<script>
+
+    function beforeSubmit(event) {
+
+        saveFormData();
+        setTimeout(function () {
+            location.reload();
+        }, 500);
+    }
+
+    function saveFormData() {
+        var formData = {
+            employeeName: document.querySelector('[name="EmployeeName"]').value,
+            employeeLastName: document.querySelector('[name="EmployeeLastName"]').value,
+            employeeDNI: document.querySelector('[name="EmployeeDNI"]').value,
+            departmentID: document.querySelector('[name="Department.DepartmentID"]').value,
+        };
+
+        localStorage.setItem('formData', JSON.stringify(formData));
+    }
+
+    // Function to restore form data from local storage
+    function restoreFormData() {
+        var formData = localStorage.getItem('formData');
+        if (formData) {
+            formData = JSON.parse(formData);
+
+            document.querySelector('[name="EmployeeName"]').value = formData.employeeName;
+            document.querySelector('[name="EmployeeLastName"]').value = formData.employeeLastName;
+            document.querySelector('[name="EmployeeDNI"]').value = formData.employeeDNI;
+            // Restore the selected value of the dropdown
+            document.querySelector('[name="Department.DepartmentID"]').value = formData.departmentID;
+            localStorage.clear();
+        }
+    }
+
+    // Restore form data on page load
+    restoreFormData();
+</script>
