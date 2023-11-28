@@ -51,6 +51,14 @@
 <script>
 
 	function beforeSubmit(event) {
+		// Validar campos antes de enviar el formulario
+		var departmentName = document.querySelector('[name="DepartmentName"]').value.trim();
+		if (departmentName === "") {
+			// Marcar el campo en rojo y evitar el envío del formulario
+			document.querySelector('[name="DepartmentName"]').classList.add("is-invalid");
+			event.preventDefault();
+			return;
+		}
 
 		saveFormData();
 		setTimeout(function () {
@@ -73,12 +81,13 @@
 		if (formData) {
 			formData = JSON.parse(formData);
 
-			document.querySelector('[name = "DepartmentName"]').value = formData.departmentName;
-			document.querySelector('[name = "DepartmentID"]').value = formData.departmentName;
+			document.querySelector('[name="DepartmentName"]').value = formData.departmentName;
+			document.querySelector('[name="DepartmentID"]').value = formData.departmentID; // Corregir aquí
 			localStorage.clear();
 		}
 	}
 
-	// Restore form data on page load
+	// Restaurar form data al cargar la página
 	restoreFormData();
+
 </script>
