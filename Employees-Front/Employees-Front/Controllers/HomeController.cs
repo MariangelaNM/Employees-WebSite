@@ -24,7 +24,7 @@ namespace Employees_Front.Controllers
 			// Use explicit type declaration for better readability
 			List<Department> departmentList = await _departmentService.GetDepartment();
 
-
+			
 			return View(departmentList);
 		}
 
@@ -32,7 +32,7 @@ namespace Employees_Front.Controllers
 		public async Task<IActionResult> Department()
 		{
 			List<Department> departmentList = await _departmentService.GetDepartment();
-
+		
 			return View(departmentList);
 		}
 
@@ -40,6 +40,8 @@ namespace Employees_Front.Controllers
 		public async Task<IActionResult> Employee()
 		{
 			List<Employee> employeeList = await _employeeService.GetEmployee();
+			// Use _employeeService here as needed
+
 			return View(employeeList);
 		}
 

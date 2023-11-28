@@ -3,10 +3,10 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+
+<div class="jumbotron text-center">
     <h1 class="display-4">List of Employees</h1>
 </div>
-
 @if (TempData["AlertMessage"] != null)
 {
     <div id="alertContainer" class="alert alert-success">
@@ -26,7 +26,7 @@
                     localStorage.clear();
                     TempData["AlertMessage"] = null;
                 }
-            }, 1000);
+            }, 3000);
         });
 
    
