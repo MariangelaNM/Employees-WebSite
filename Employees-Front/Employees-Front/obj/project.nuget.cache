@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "iaFpk7BdP5/ob7Z2XxHyziWlZvXGyl7LSNL/KveiQW6xoIZHPcfsc2/PZj5zdvs0sd7wkO1X9EZ3pXD7KPE2wg==",
+  "success": true,
+  "projectFilePath": "D:\\GitHub\\Employees-WebSite\\Employees-Front\\Employees-Front\\Employees-Front.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\maria\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

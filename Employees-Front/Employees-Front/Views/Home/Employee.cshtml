@@ -1,0 +1,80 @@
+﻿@model List<Employee>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">List of Employees</h1>
+</div>
+
+@if (TempData["AlertMessage"] != null)
+{
+    <div id="alertContainer" class="alert alert-success">
+        <strong>Success! </strong>@TempData["AlertMessage"]
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var alertContainer = document.getElementById('alertContainer');
+            if (alertContainer) {
+                alertContainer.style.display = 'block';
+            }
+
+            setTimeout(function () {
+                if (alertContainer) {
+                    alertContainer.style.display = 'none';
+                    TempData["AlertMessage"] = null;
+                }
+            }, 1000);
+        });
+
+        localStorage.clear();
+
+        function confirmDelete(message) {
+            if (confirm(message)) {
+                setTimeout(function () {
+                    location.reload();
+                }, 500);
+            }
+        }
+    </script>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-end mb-3">
+            <a href="@Url.Action("EmployeeForm", "Home", new { EmployeeID = 0 })" class="btn btn-success btn-sm">New Employee</a>
+        </div>
+        <hr />
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="text-nowrap">DNI</th>
+                        <th class="text-nowrap">Name</th>
+                        <th class="text-nowrap">Last Name</th>
+                        <th class="text-nowrap">Department</th>
+                        <th class="text-nowrap">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.EmployeeDNI</td>
+                            <td>@item.EmployeeName</td>
+                            <td>@item.EmployeeLastName</td>
+                            <td>@item.Department.DepartmentName</td>
+                            <td>
+                                <a href="@Url.Action("EmployeeForm", "Home", new { EmployeeID = item.EmployeeID })" class="btn btn-primary btn-sm">Update</a>
+                                <a href="@Url.Action("Delete", "Employee", new { EmployeeID = item.EmployeeID })" onclick="confirmDelete('Are you sure you want to delete this Employee?')" class="btn btn-danger btn-sm ml-2">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
