@@ -2,104 +2,106 @@ using Employees_Front.Models;
 using Employees_Front.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Threading.Tasks; // Make sure to include this namespace for Task
+using System.Threading.Tasks;
+using System.Collections.Generic; // Add this namespace for List<T>
 
 namespace Employees_Front.Controllers
 {
-    public class HomeController : Controller
-    {
-        private readonly IService_API_Department _departmentService;
-        private readonly IService_API_Employee _employeeService;
+	public class HomeController : Controller
+	{
+		private readonly IService_API_Department _departmentService;
+		private readonly IService_API_Employee _employeeService;
 
-        public HomeController(IService_API_Department departmentService, IService_API_Employee employeeService)
-        {
-            _departmentService = departmentService;
-            _employeeService = employeeService;
-        }
+		public HomeController(IService_API_Department departmentService, IService_API_Employee employeeService)
+		{
+			_departmentService = departmentService;
+			_employeeService = employeeService;
+		}
 
-        public async Task<IActionResult> Index()
-        {
-            List<Department> departmentList = await _departmentService.GetDepartment();
-
-
-            // Your logic for combining or using both lists
-
-            return View(departmentList);
-        }
-
-        public async Task<IActionResult> Department()
-        {
-            List<Department> departmentList = await _departmentService.GetDepartment();
-            // Use _employeeService here as needed
-
-            return View(departmentList);
-        }
-        public async Task<IActionResult> Employee()
-        {
-            List<Employee> departmentList = await _employeeService.GetEmployee();
-            // Use _employeeService here as needed
-
-            return View(departmentList);
-        }
-
-        public async Task<IActionResult> EmployeeFormAsync(int EmployeeID)
-        {
-            Employee employee;
-           
-            if (EmployeeID == 0)
-            {
-                // Nuevo departamento
-                employee = new Employee();
-                ViewBag.Accion = "New Department";
-            }
-            else
-            {
-                // Editar departamento existente (recuperar datos de la base de datos o de donde sea necesario)
-                employee = await _employeeService.GetEmployeeById(EmployeeID);
-                ViewBag.Accion = "Edit Department";
-            }
-
-            var departments = await _departmentService.GetDepartment(); // Debes implementar este método según tu lógica
-
-            // Asigna la lista de departamentos a ViewBag.Department
-            ViewBag.Data = departments;
-
-            return View(employee);
-        }
+		// Use asynchronous programming for better scalability
+		public async Task<IActionResult> Index()
+		{
+			// Use explicit type declaration for better readability
+			List<Department> departmentList = await _departmentService.GetDepartment();
 
 
+			return View(departmentList);
+		}
 
-        public async Task<IActionResult> DepartmentFormAsync(int departmentID)
-        {
-            Department department;
+		// Follow a consistent naming convention for action methods
+		public async Task<IActionResult> Department()
+		{
+			List<Department> departmentList = await _departmentService.GetDepartment();
 
-            if (departmentID == 0)
-            {
-                // Nuevo departamento
-                department = new Department();
-                ViewBag.Accion = "New Department";
-            }
-            else
-            {
-                // Editar departamento existente (recuperar datos de la base de datos o de donde sea necesario)
-                department = await _departmentService.GetDepartmentById(departmentID);
-                ViewBag.Accion = "Edit Department";
-            }
+			return View(departmentList);
+		}
 
-            // Use _employeeService here as needed
+		// Follow a consistent naming convention for action methods
+		public async Task<IActionResult> Employee()
+		{
+			List<Employee> employeeList = await _employeeService.GetEmployee();
+			return View(employeeList);
+		}
 
-            return View(department);
-        }
+		// Follow a consistent naming convention for action methods
+		public async Task<IActionResult> EmployeeFormAsync(int employeeID)
+		{
+			Employee employee;
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+			if (employeeID == 0)
+			{
+				// New employee
+				employee = new Employee();
+				ViewBag.Action = "New Employee";
+			}
+			else
+			{
+				// Edit existing employee (retrieve data from the database or wherever necessary)
+				employee = await _employeeService.GetEmployeeById(employeeID);
+				ViewBag.Action = "Edit Employee";
+			}
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    }
+			var departments = await _departmentService.GetDepartment();
+			// Assign the list of departments to ViewBag.Data
+			ViewBag.Data = departments;
+
+			return View(employee);
+		}
+
+		// Follow a consistent naming convention for action methods
+		public async Task<IActionResult> DepartmentFormAsync(int departmentID)
+		{
+			Department department;
+
+			if (departmentID == 0)
+			{
+				// New department
+				department = new Department();
+				ViewBag.Action = "New Department";
+			}
+			else
+			{
+				// Edit existing department (retrieve data from the database or wherever necessary)
+				department = await _departmentService.GetDepartmentById(departmentID);
+				ViewBag.Action = "Edit Department";
+			}
+
+			// Use _employeeService here as needed
+
+			return View(department);
+		}
+
+		// Use IActionResult for consistency
+		public IActionResult Privacy()
+		{
+			return View();
+		}
+
+		// Use IActionResult for consistency, and add comments to clarify the purpose of this action
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+		public IActionResult Error()
+		{
+			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+		}
+	}
 }

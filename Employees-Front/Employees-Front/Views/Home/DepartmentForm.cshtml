@@ -6,7 +6,7 @@
 
 <div class="card">
 	<div class="card-header">
-		@ViewBag.Accion
+		@ViewBag.Action
 	</div>
 	@if (TempData["ErrorMessage"] != null)
 	{
@@ -44,17 +44,15 @@
 			<button type="submit" class="btn btn-success btn-sm">Save</button>
 			<a asp-action="Department" asp-controller="Home" class="btn btn-warning btn-sm">Cancel</a>
 		</form>
-
-
 	</div>
 </div>
-<script>
 
+<script>
 	function beforeSubmit(event) {
-		// Validar campos antes de enviar el formulario
+		// Validate fields before submitting the form
 		var departmentName = document.querySelector('[name="DepartmentName"]').value.trim();
 		if (departmentName === "") {
-			// Marcar el campo en rojo y evitar el envío del formulario
+			// Mark the field in red and prevent form submission
 			document.querySelector('[name="DepartmentName"]').classList.add("is-invalid");
 			event.preventDefault();
 			return;
@@ -82,12 +80,11 @@
 			formData = JSON.parse(formData);
 
 			document.querySelector('[name="DepartmentName"]').value = formData.departmentName;
-			document.querySelector('[name="DepartmentID"]').value = formData.departmentID; // Corregir aquí
+			document.querySelector('[name="DepartmentID"]').value = formData.departmentID; // Fix here
 			localStorage.clear();
 		}
 	}
 
-	// Restaurar form data al cargar la página
+	// Restore form data when the page loads
 	restoreFormData();
-
 </script>

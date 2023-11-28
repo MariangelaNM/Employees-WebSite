@@ -163,7 +163,7 @@
                 setValue('[name="EmployeeDNI"]', formData.employeeDNI);
                 setValue('[name="Department.DepartmentID"]', formData.departmentID);
                 // Restore more form fields as needed
-                localStorage.clear();
+              
             }
         }
 
@@ -188,7 +188,7 @@
             invalidFields.forEach(function (field) {
                 field.classList.remove('invalid-field');
             });
-        }
+        } localStorage.clear();
     </script>
 
     <style>
