@@ -7,7 +7,30 @@
     <h1 class="display-4">Departments</h1>
     <!-- <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p> -->
 </div>
+@if (TempData["AlertMessage"] != null)
+{
+    <div id="alertContainer" class="alert alert-success">
+        <strong>Success! </strong>@TempData["AlertMessage"]
+    </div>
 
+    <script>
+        // Show the alert immediately when TempData["AlertMessage"] has data
+        document.addEventListener("DOMContentLoaded", function () {
+            var alertContainer = document.getElementById('alertContainer');
+            if (alertContainer) {
+                alertContainer.style.display = 'block';
+            }
+
+            // Add a timer to hide the alert after 3 seconds
+            setTimeout(function () {
+                if (alertContainer) {
+                    alertContainer.style.display = 'none';
+                    TempData["AlertMessage"] = null;
+                }
+            }, 1000);
+        });
+    </script>
+}
 <div class="card">
 
     <div class="card-body">
@@ -38,3 +61,8 @@
         </table>
     </div>
 </div>
+<script>
+
+    localStorage.clear();
+
+</script>
