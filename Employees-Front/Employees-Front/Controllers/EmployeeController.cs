@@ -34,6 +34,27 @@ namespace Employees_Front.Controllers
             return View(model);
         }
 
+        // GET: Display a form for creating or editing a department
+        // Controls the functions to save or edit
+        public IActionResult Employee(int departmentID)
+        {
+            Employee employee;
+
+            if (departmentID == 0)
+            {
+                // New employee
+                employee = new Employee();
+                ViewBag.Action = "New Employee"; // Set ViewBag.Action for displaying the appropriate title in the view
+            }
+            else
+            {
+                // Edit existing employee (retrieve data from the database or wherever necessary)
+                employee = new Employee();
+                ViewBag.Action = "Edit Employee"; // Set ViewBag.Action for displaying the appropriate title in the view
+            }
+
+            return View(employee);
+        }
         // Helper method to get the list of departments asynchronously
         public async Task<List<Department>> GetDepartmentAsync()
         {

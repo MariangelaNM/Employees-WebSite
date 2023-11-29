@@ -12,15 +12,15 @@ a[b-aohdr7y9d1] {
 }
 
 .btn-primary[b-aohdr7y9d1] {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #333333;
+    background-color: #ADD8E6;
+    border-color: #ADD8E6;
 }
 
 .nav-pills .nav-link.active[b-aohdr7y9d1], .nav-pills .show > .nav-link[b-aohdr7y9d1] {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #333333;
+    background-color: #ADD8E6;
+    border-color: #ADD8E6;
 }
 
 .border-top[b-aohdr7y9d1] {

@@ -28,12 +28,12 @@
 						alertContainer.style.display = 'none';
 						TempData["AlertMessage"] = null;
 					}
-				}, 5000);
+				}, 4000);
 			});
 		</script>
 	}
 	<div class="card-body">
-		<form asp-action="Post" asp-controller="Department" method="post" onsubmit="beforeSubmit(event)">
+		<form asp-action="Post" asp-controller="Department" method="post" onsubmit="return beforeSubmit(event)">
 			<input type="hidden" asp-for="DepartmentID" />
 
 			<div class="mb-2">
@@ -61,7 +61,7 @@
 		saveFormData();
 		setTimeout(function () {
 			location.reload();
-		}, 500);
+		}, 800);
 	}
 
 	function saveFormData() {

@@ -20,3 +20,34 @@ html {
 body {
   margin-bottom: 60px;
 }
+body {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+.jumbotron {
+    background-color: #79c15d;
+    color: #0d703a;
+    padding: 80px 0;
+    margin-bottom: 10px;
+}
+
+.card {
+    border: none;
+    background-color: #ebedeb;
+    color: #0d703a; 
+}
+
+
+/* Botones con colores personalizados */
+.btn-primary {
+    background-color: #79c15d;
+    border-color: #79c15d;
+    color: #333333;
+}
+
+    .btn-primary:hover {
+        background-color: #87CEEB;
+        border-color: #87CEEB;
+        color: #333333;
+    }

@@ -1,7 +1,7 @@
 ﻿@model Employees_Front.Models.Employee
 
 @{
-    ViewData["Title"] = "Department";
+    ViewData["Title"] = "Employee";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,14 +16,13 @@
         </div>
 
         <script>
-      
             document.addEventListener("DOMContentLoaded", function () {
                 var alertContainer = document.getElementById('alertContainer');
                 if (alertContainer) {
                     alertContainer.style.display = 'block';
                 }
 
-                // Add a timer to hide the alert after 3 seconds
+                // Add a timer to hide the alert after 5 seconds
                 setTimeout(function () {
                     if (alertContainer) {
                         alertContainer.style.display = 'none';
@@ -55,146 +54,133 @@
                 <label class="form-label">Select Department</label>
                 @Html.DropDownListFor(model => model.Department.DepartmentID, new SelectList(ViewBag.Data, "DepartmentID", "DepartmentName"), "Select...", new { @class = "form-control form-control-sm" })
             </div>
-           
 
             <button type="submit" class="btn btn-success btn-sm">Save</button>
             <a asp-action="Employee" asp-controller="Home" class="btn btn-warning btn-sm">Cancel</a>
-           
-
         </form>
-
     </div>
 </div>
-@section scripts {
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Display an alert if there is an error message
-            var alertContainer = document.getElementById('alertContainer');
-            if (alertContainer) {
-                // Show the alert container
-                alertContainer.style.display = 'block';
 
-                // Add a timer to hide the alert after 5 seconds
-                setTimeout(function () {
-                    alertContainer.style.display = 'none';
-                }, 5000);
-            }
+<script>
+    // Function called before form submission
+    function beforeSubmit(event) {
+        // Validate form fields
+        if (!validateForm()) {
+            // Prevent form submission if validation fails
+            event.preventDefault();
+        } else {
+            // Save form data before submission
+            saveFormData();
+        }
+    }
 
-            // Restore form data on page load
-            restoreFormData();
+    // Function to validate form fields
+    function validateForm() {
+        // Reset styles (remove red border) for all fields
+        resetStyles();
+
+        // Get values of required fields
+        var employeeName = getValue('[name="EmployeeName"]');
+        var employeeLastName = getValue('[name="EmployeeLastName"]');
+        var employeeDNI = getValue('[name="EmployeeDNI"]');
+        var departmentID = getValue('[name="Department.DepartmentID"]');
+
+        // Add more fields to validate as needed
+
+        var isValid = true;
+
+        // Check if any required field is empty
+        if (employeeName.trim() === '') {
+            markInvalidField('[name="EmployeeName"]');
+            isValid = false;
+        }
+        if (employeeLastName.trim() === '') {
+            markInvalidField('[name="EmployeeLastName"]');
+            isValid = false;
+        }
+        if (employeeDNI.trim() === '') {
+            markInvalidField('[name="EmployeeDNI"]');
+            isValid = false;
+        }
+        if (departmentID.trim() === '') {
+            markInvalidField('[name="Department.DepartmentID"]');
+            isValid = false;
+        }
+
+        // Add additional validation checks if necessary
+
+        return isValid;
+    }
+
+    // Function to save form data to localStorage
+    function saveFormData() {
+        var formData = {
+            employeeID: getValue('[name="EmployeeID"]'),
+            employeeName: getValue('[name="EmployeeName"]'),
+            employeeLastName: getValue('[name="EmployeeLastName"]'),
+            employeeDNI: getValue('[name="EmployeeDNI"]'),
+            departmentID: getValue('[name="Department.DepartmentID"]'),
+            // Add more form fields as needed
+        };
+
+        // Store form data in localStorage
+        localStorage.setItem('formData', JSON.stringify(formData));
+        setTimeout(function () {
+            location.reload();
+        }, 800);
+    }
+
+    // Function to restore form data from localStorage
+    function restoreFormData() {
+        var formData = localStorage.getItem('formData');
+        if (formData) {
+            // Parse stored form data
+            formData = JSON.parse(formData);
+
+            // Restore form fields from localStorage
+            setValue('[name="EmployeeID"]', formData.employeeID);
+            setValue('[name="EmployeeName"]', formData.employeeName);
+            setValue('[name="EmployeeLastName"]', formData.employeeLastName);
+            setValue('[name="EmployeeDNI"]', formData.employeeDNI);
+            setValue('[name="Department.DepartmentID"]', formData.departmentID);
+            // Restore more form fields as needed
+        }
+    }
+
+    // Helper function to get the value of a form field
+    function getValue(selector) {
+        return document.querySelector(selector).value;
+    }
+
+    // Helper function to set the value of a form field
+    function setValue(selector, value) {
+        document.querySelector(selector).value = value;
+    }
+
+    // Helper function to mark an invalid field with a red border
+    function markInvalidField(selector) {
+        document.querySelector(selector).classList.add('invalid-field');
+    }
+
+    // Helper function to reset styles (remove red border) for all fields
+    function resetStyles() {
+        var invalidFields = document.querySelectorAll('.invalid-field');
+        invalidFields.forEach(function (field) {
+            field.classList.remove('invalid-field');
         });
+    }
 
-        // Function called before form submission
-        function beforeSubmit(event) {
-            // Validate form fields
-            if (!validateForm()) {
-                // Prevent form submission if validation fails
-                event.preventDefault();
-            } else {
-                // Save form data before submission
-                saveFormData();
-            }
-        }
+    // Restore form data when the page loads
+    restoreFormData();
+</script>
 
-        // Function to validate form fields
-        function validateForm() {
-            // Reset styles (remove red border) for all fields
-            resetStyles();
+<style>
+    /* Style for invalid fields */
+    .invalid-field {
+        border: 1px solid red;
+    }
+</style>
 
-            // Get values of required fields
-            var employeeName = getValue('[name="EmployeeName"]');
-            var employeeLastName = getValue('[name="EmployeeLastName"]');
-            var employeeDNI = getValue('[name="EmployeeDNI"]');
-            var departmentID = getValue('[name="Department.DepartmentID"]');
-
-            // Add more fields to validate as needed
-
-            var isValid = true;
-
-            // Check if any required field is empty
-            if (employeeName.trim() === '') {
-                markInvalidField('[name="EmployeeName"]');
-                isValid = false;
-            }
-            if (employeeLastName.trim() === '') {
-                markInvalidField('[name="EmployeeLastName"]');
-                isValid = false;
-            }
-            if (employeeDNI.trim() === '') {
-                markInvalidField('[name="EmployeeDNI"]');
-                isValid = false;
-            }
-            if (departmentID.trim() === '') {
-                markInvalidField('[name="Department.DepartmentID"]');
-                isValid = false;
-            }
-
-            // Add additional validation checks if necessary
-
-            return isValid;
-        }
-
-        // Function to save form data to localStorage
-        function saveFormData() {
-            var formData = {
-                employeeID: getValue('[name="EmployeeID"]'),
-                employeeName: getValue('[name="EmployeeName"]'),
-                employeeLastName: getValue('[name="EmployeeLastName"]'),
-                employeeDNI: getValue('[name="EmployeeDNI"]'),
-                departmentID: getValue('[name="Department.DepartmentID"]'),
-                // Add more form fields as needed
-            };
-
-            // Store form data in localStorage
-            localStorage.setItem('formData', JSON.stringify(formData));
-        }
-
-        // Function to restore form data from localStorage
-        function restoreFormData() {
-            var formData = localStorage.getItem('formData');
-            if (formData) {
-                // Parse stored form data
-                formData = JSON.parse(formData);
-
-                // Restore form fields from localStorage
-                setValue('[name="EmployeeID"]', formData.employeeID);
-                setValue('[name="EmployeeName"]', formData.employeeName);
-                setValue('[name="EmployeeLastName"]', formData.employeeLastName);
-                setValue('[name="EmployeeDNI"]', formData.employeeDNI);
-                setValue('[name="Department.DepartmentID"]', formData.departmentID);
-                // Restore more form fields as needed
-              
-            }
-        }
-
-        // Helper function to get the value of a form field
-        function getValue(selector) {
-            return document.querySelector(selector).value;
-        }
-
-        // Helper function to set the value of a form field
-        function setValue(selector, value) {
-            document.querySelector(selector).value = value;
-        }
-
-        // Helper function to mark an invalid field with a red border
-        function markInvalidField(selector) {
-            document.querySelector(selector).classList.add('invalid-field');
-        }
-
-        // Helper function to reset styles (remove red border) for all fields
-        function resetStyles() {
-            var invalidFields = document.querySelectorAll('.invalid-field');
-            invalidFields.forEach(function (field) {
-                field.classList.remove('invalid-field');
-            });
-        } localStorage.clear();
-    </script>
-
-    <style>
-        /* Style for invalid fields */
-        .invalid-field {
-            border: 1px solid red;
-        }
-    </style>
-}
+<script>
+    localStorage.clear();
+</script>
