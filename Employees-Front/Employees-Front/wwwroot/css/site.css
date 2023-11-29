@@ -26,26 +26,23 @@ body {
 }
 
 .jumbotron {
-    background-color: #ADD8E6;
-    color: #333333;
+    background-color: #79c15d;
+    color: #0d703a;
     padding: 80px 0;
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
 
 .card {
     border: none;
-    background-color: #F5F5F5;
-    transition: transform 0.3s;
+    background-color: #ebedeb;
+    color: #0d703a; 
 }
 
-    .card:hover {
-        transform: scale(1.05);
-    }
 
 /* Botones con colores personalizados */
 .btn-primary {
-    background-color: #ADD8E6;
-    border-color: #ADD8E6;
+    background-color: #79c15d;
+    border-color: #79c15d;
     color: #333333;
 }
 
